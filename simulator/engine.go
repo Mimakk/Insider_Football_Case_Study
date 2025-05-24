@@ -4,7 +4,7 @@ import "insider_football_case_study/models"
 
 type League struct {
 	Teams    map[string]*models.Team
-	Fictures []models.Match
+	Fixtures []models.Match
 	Results  []models.Match
 }
 
