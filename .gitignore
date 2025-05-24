@@ -1,0 +1,26 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+insider-league
+
+# Vendor dependencies
+vendor/
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs and test outputs
+*.log
+coverage.out
+*.tmp
