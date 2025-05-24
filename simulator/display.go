@@ -24,9 +24,9 @@ func (l *League) PrintTable() {
 		return (a.GoalsFor - a.GoalsAgainst) > (b.GoalsFor - b.GoalsAgainst)
 	})
 	fmt.Println("\nLEAGUE TABLE")
-	fmt.Println("Team\tPts\tGD\tGF\tGA")
+	fmt.Printf("%-15s %4s %4s %4s %4s\n", "Team", "Pts", "GD", "GF", "GA")
 	for _, r := range rows {
-		s := r.Stats
-		fmt.Printf("%s\t%d\t%d\t%d\t%d\n", r.Name, s.Points, s.GoalsFor-s.GoalsAgainst, s.GoalsFor, s.GoalsAgainst)
+		s := r.Team.Stats
+		fmt.Printf("%-15s %4d %4d %4d %4d\n", r.Name, s.Points, s.GoalsFor-s.GoalsAgainst, s.GoalsFor, s.GoalsAgainst)
 	}
 }
