@@ -6,6 +6,8 @@ import (
 	"sort"
 )
 
+// DO NOT FORGET TO DELETE THIS FILE AFTER PRODUCTION!!!!
+
 func (l *League) PrintTable() {
 	type Row struct {
 		Name string
