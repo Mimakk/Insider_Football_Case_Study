@@ -16,3 +16,12 @@ func NewLeague(teamList []models.Team) *League {
 	}
 	return &League{Teams: teams}
 }
+
+// Interface to abstract League for server (Dependency Inversion)
+type LeagueAPI interface {
+	SimulateAllMatches()
+	SimulateWeek(week int)
+	GetTable() []TeamRow
+	PredictRemainingWeeks(fromWeek int)
+	EditMatch(week int, home, away string, hg, ag int) error
+}
