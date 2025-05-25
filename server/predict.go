@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 )
@@ -12,6 +13,8 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid fromWeek", http.StatusBadRequest)
 		return
 	}
-	league.PredictRemainingWeeks(week)
-	w.Write([]byte("Prediction complete."))
+	predictedTable := league.PredictRemainingWeeks(week)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(predictedTable)
 }

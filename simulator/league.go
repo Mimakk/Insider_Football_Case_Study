@@ -22,6 +22,6 @@ type LeagueAPI interface {
 	SimulateAllMatches()
 	SimulateWeek(week int)
 	GetTable() []TeamRow
-	PredictRemainingWeeks(fromWeek int)
+	PredictRemainingWeeks(fromWeek int) []TeamRow
 	EditMatch(week int, home, away string, hg, ag int) error
 }
