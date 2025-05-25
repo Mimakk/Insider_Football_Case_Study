@@ -1,5 +1,7 @@
 package simulator
 
+import "sort"
+
 func (l *League) GetTable() []TeamRow {
 	var rows []TeamRow
 	for name, t := range l.Teams {
@@ -12,5 +14,13 @@ func (l *League) GetTable() []TeamRow {
 			GA:     s.GoalsAgainst,
 		})
 	}
+
+	sort.Slice(rows, func(i, j int) bool {
+		if rows[i].Points == rows[j].Points {
+			return rows[i].GD > rows[j].GD
+		}
+		return rows[i].Points > rows[j].Points
+	})
+
 	return rows
 }
