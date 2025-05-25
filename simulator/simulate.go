@@ -1,9 +1,11 @@
 package simulator
 
-func (l *League) SimulateAllMatches() {
+import "insider_football_case_study/models"
+
+func (l *League) simulateMatches(filter func(match *models.Match) bool) {
 	for i := range l.Fixtures {
-		if !l.Fixtures[i].Played {
-			match := &l.Fixtures[i]
+		match := &l.Fixtures[i]
+		if filter(match) && !match.Played {
 			home := l.Teams[match.HomeTeam]
 			away := l.Teams[match.AwayTeam]
 			hg, ag := SimulateMatch(*home, *away)
@@ -14,4 +16,22 @@ func (l *League) SimulateAllMatches() {
 			applyMatchResult(home, away, hg, ag)
 		}
 	}
+}
+
+func (l *League) SimulateAllMatches() {
+	l.simulateMatches(func(match *models.Match) bool {
+		return true
+	})
+}
+
+func (l *League) SimulateWeek(week int) {
+	l.simulateMatches(func(match *models.Match) bool {
+		return match.Week == week
+	})
+}
+
+func (l *League) PredictRemainingWeeks(fromWeek int) {
+	l.simulateMatches(func(match *models.Match) bool {
+		return match.Week > fromWeek
+	})
 }
