@@ -30,10 +30,10 @@ func (l *League) SimulateWeek(week int) {
 	})
 }
 
-func (l *League) PredictRemainingWeeks(fromWeek int) {
+func (l *League) PredictRemainingWeeks(fromWeek int) []TeamRow {
 	cloned := l.deepCopy()
-
 	cloned.simulateMatches(func(m *models.Match) bool {
 		return m.Week > fromWeek && !m.Played
 	})
+	return cloned.GetTable()
 }

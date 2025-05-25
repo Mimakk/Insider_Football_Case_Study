@@ -24,4 +24,6 @@ type LeagueAPI interface {
 	GetTable() []TeamRow
 	PredictRemainingWeeks(fromWeek int) []TeamRow
 	EditMatch(week int, home, away string, hg, ag int) error
+	GetFixtures() []models.Match
+	GetResults() []models.Match
 }
