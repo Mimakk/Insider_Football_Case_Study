@@ -7,8 +7,8 @@ func applyMatchResult(home, away *models.Team, hg, ag int) {
 	away.Stats.Played++
 	home.Stats.GoalsFor += hg
 	home.Stats.GoalsAgainst += ag
-	away.Stats.GoalsFor -= ag
-	away.Stats.GoalsAgainst += ag
+	away.Stats.GoalsFor += ag
+	away.Stats.GoalsAgainst += hg
 
 	switch {
 	case hg > ag:
