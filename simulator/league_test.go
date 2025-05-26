@@ -57,3 +57,56 @@ func TestGetTableSorting(t *testing.T) {
 		}
 	}
 }
+
+func TestEditMatch(t *testing.T) {
+	league := League{
+		Teams: map[string]*models.Team{
+			"Fenerbahce": {Name: "Fenerbahce"},
+			"Besiktas":   {Name: "Besiktas"},
+		},
+		Fixtures: []models.Match{
+			{Week: 1, HomeTeam: "Fenerbahce", AwayTeam: "Besiktas", Played: false},
+		},
+	}
+
+	// Edit match to set result
+	err := league.EditMatch(1, "Fenerbahce", "Besiktas", 3, 1)
+	if err != nil {
+		t.Fatalf("edit failed: %v", err)
+	}
+
+	fb := league.Teams["Fenerbahce"]
+	bjk := league.Teams["Besiktas"]
+
+	if fb.Stats.Points != 3 {
+		t.Errorf("expected 3 points, got %d", fb.Stats.Points)
+	}
+	if bjk.Stats.Losses != 1 {
+		t.Errorf("expected 1 loss for Besiktas, got %d", bjk.Stats.Losses)
+	}
+}
+
+func TestSimulateMatchesCustomFilter(t *testing.T) {
+	league := League{
+		Teams: map[string]*models.Team{
+			"A": {Name: "A", Strength: 1.1},
+			"B": {Name: "B", Strength: 1.0},
+			"C": {Name: "C", Strength: 1.0},
+		},
+		Fixtures: []models.Match{
+			{Week: 1, HomeTeam: "A", AwayTeam: "B"},
+			{Week: 2, HomeTeam: "A", AwayTeam: "C"},
+		},
+	}
+
+	league.simulateMatches(func(m *models.Match) bool {
+		return m.Week == 2 // simulate only week 2
+	})
+
+	if league.Fixtures[0].Played {
+		t.Errorf("week 1 should not be played")
+	}
+	if !league.Fixtures[1].Played {
+		t.Errorf("week 2 should be played")
+	}
+}
