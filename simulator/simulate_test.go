@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestSimulateMatchesCustomFilter(t *testing.T) {
+func TestSimulateMatchesFilter(t *testing.T) {
 	league := League{
 		Teams: map[string]*models.Team{
 			"A": {Name: "A", Strength: 1.1},
@@ -19,13 +19,13 @@ func TestSimulateMatchesCustomFilter(t *testing.T) {
 	}
 
 	league.simulateMatches(func(m *models.Match) bool {
-		return m.Week == 2 // simulate only week 2
+		return m.Week == 2
 	})
 
 	if league.Fixtures[0].Played {
-		t.Errorf("week 1 should not be played")
+		t.Errorf("Week 1 should not be played")
 	}
 	if !league.Fixtures[1].Played {
-		t.Errorf("week 2 should be played")
+		t.Errorf("Week 2 should be played")
 	}
 }

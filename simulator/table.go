@@ -17,6 +17,9 @@ func (l *League) GetTable() []TeamRow {
 
 	sort.Slice(rows, func(i, j int) bool {
 		if rows[i].Points == rows[j].Points {
+			if rows[i].GD == rows[j].GD {
+				return rows[i].GF > rows[j].GF
+			}
 			return rows[i].GD > rows[j].GD
 		}
 		return rows[i].Points > rows[j].Points
