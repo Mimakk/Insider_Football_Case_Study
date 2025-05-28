@@ -1,0 +1,155 @@
+openapi: 3.0.0
+info:
+  title: Insider Football League API
+  version: 1.0.0
+  description: A league simulator for football matches with prediction and result editing.
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /simulate/all:
+    get:
+      summary: Simulate all matches
+      responses:
+        '200':
+          description: All matches simulated
+
+  /simulate/week:
+    get:
+      summary: Simulate a specific week
+      parameters:
+        - in: query
+          name: week
+          schema:
+            type: integer
+          required: true
+          description: Week number to simulate
+      responses:
+        '200':
+          description: Matches for that week simulated
+        '400':
+          description: Invalid input
+
+  /predict:
+    get:
+      summary: Predict remaining weeks from a specific point
+      parameters:
+        - in: query
+          name: fromWeek
+          schema:
+            type: integer
+          required: true
+          description: Week number to start predictions from
+      responses:
+        '200':
+          description: Returns the predicted table
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamRow'
+
+  /match/edit:
+    post:
+      summary: Edit a match result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditRequest'
+      responses:
+        '200':
+          description: Match updated
+        '404':
+          description: Match not found
+        '400':
+          description: Invalid input
+
+  /table:
+    get:
+      summary: Get the current league table
+      responses:
+        '200':
+          description: League table
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamRow'
+
+  /fixtures:
+    get:
+      summary: Get upcoming (unplayed) fixtures
+      responses:
+        '200':
+          description: Upcoming matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+
+  /results:
+    get:
+      summary: Get played match results
+      responses:
+        '200':
+          description: Completed matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+
+components:
+  schemas:
+    TeamRow:
+      type: object
+      properties:
+        name:
+          type: string
+        points:
+          type: integer
+        gd:
+          type: integer
+        gf:
+          type: integer
+        ga:
+          type: integer
+
+    EditRequest:
+      type: object
+      properties:
+        week:
+          type: integer
+        home_team:
+          type: string
+        away_team:
+          type: string
+        home_goals:
+          type: integer
+        away_goals:
+          type: integer
+      required: [week, home_team, away_team, home_goals, away_goals]
+
+    Match:
+      type: object
+      properties:
+        week:
+          type: integer
+        homeTeam:
+          type: string
+        awayTeam:
+          type: string
+        homeGoals:
+          type: integer
+        awayGoals:
+          type: integer
+        played:
+          type: boolean

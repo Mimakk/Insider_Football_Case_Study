@@ -22,3 +22,13 @@ API runs at: http://localhost:8080
 ```bash
 go test ./simulator -coverprofile=coverage.out
 go tool cover -html=coverage.out
+
+## 📬 Postman Collection
+
+You can test all API endpoints using Postman.
+
+📁 [Download insider_football_case.postman_collection.json](./insider_football_case.postman_collection.json)
+
+- Simulate matches
+- Edit results
+- View table, fixtures, predictions
