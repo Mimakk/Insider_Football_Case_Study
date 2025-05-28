@@ -29,3 +29,18 @@ func TestSimulateMatchesCustomFilter(t *testing.T) {
 		t.Errorf("week 2 should be played")
 	}
 }
+
+func TestNewLeague(t *testing.T) {
+	teams := []models.Team{
+		{Name: "A"},
+		{Name: "B"},
+	}
+	l := NewLeague(teams)
+
+	if len(l.Teams) != 2 {
+		t.Errorf("expected 2 teams, got %d", len(l.Teams))
+	}
+	if _, ok := l.Teams["A"]; !ok {
+		t.Errorf("team A not found in league")
+	}
+}
