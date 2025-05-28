@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "Insider Football Case API",
+    "_postman_id": "d7f42ec2-b9dc-4eb9-8aa2-0fc1b7e77a2e",
+    "description": "Postman collection for simulating football league results",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Simulate All Matches",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "http://localhost:8080/simulate/all", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["simulate", "all"] }
+      }
+    },
+    {
+      "name": "Simulate Week",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/simulate/week?week=1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["simulate", "week"],
+          "query": [{ "key": "week", "value": "1" }]
+        }
+      }
+    },
+    {
+      "name": "Get League Table",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "http://localhost:8080/table", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["table"] }
+      }
+    },
+    {
+      "name": "Edit Match Result",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"week\": 1,\n  \"home_team\": \"Fenerbahce\",\n  \"away_team\": \"Besiktas\",\n  \"home_goals\": 3,\n  \"away_goals\": 2\n}"
+        },
+        "url": { "raw": "http://localhost:8080/match/edit", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["match", "edit"] }
+      }
+    },
+    {
+      "name": "Predict From Week",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/predict?fromWeek=3",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["predict"],
+          "query": [{ "key": "fromWeek", "value": "3" }]
+        }
+      }
+    },
+    {
+      "name": "Get Fixtures",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "http://localhost:8080/fixtures", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["fixtures"] }
+      }
+    },
+    {
+      "name": "Get Results",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "http://localhost:8080/results", "protocol": "http", "host": ["localhost"], "port": "8080", "path": ["results"] }
+      }
+    }
+  ]
+}
