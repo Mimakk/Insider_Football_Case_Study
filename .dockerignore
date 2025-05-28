@@ -1,0 +1,9 @@
+# Ignore test and dev files
+*.out
+*.test
+coverage.*
+vendor/
+.git/
+.github/
+.idea/
+.DS_Store
