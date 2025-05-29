@@ -1,93 +1,177 @@
+
 # ⚽ Insider Football League Simulator
 
-A backend football league engine that simulates match results, league standings, and predictions — with full REST API, PostgreSQL persistence, and test coverage.
+A backend simulation engine that models a football league with match predictions, real-time simulations, result editing, and persistent storage via PostgreSQL.
+
+Built with Go, following SOLID principles, fully tested, and ready to deploy.
 
 ---
 
 ## 🚀 Features
 
-- Simulate all matches or one week at a time
-- Predict future results from any week onward
-- Edit match results
-- View league table, results, fixtures
-- Persist teams and matches in PostgreSQL
-- Clean code structure (SOLID principles)
-- Full unit test coverage
-- Docker-ready and CI setup
+- ✅ Simulate full season or one week at a time
+- 🔄 Predict league table from any future week
+- ✏️ Edit match results (with stats recalculated)
+- 📊 View fixtures, results, league table, and league state
+- 💾 Persistence with PostgreSQL
+- 🔁 Round-robin fixture generation (fair scheduling)
+- ⚙️ RESTful API with clean endpoints
+- ✅ Unit tested with Go’s testing package
+- 🐳 Docker support and Makefile tasks
 
 ---
 
 ## 📦 Tech Stack
 
-- **Go** 1.20
-- **PostgreSQL** (via Docker)
-- **REST API** (net/http)
-- **SQLX** for DB access
-- **migrate** for DB migrations
-- **Postman** or `curl` for testing endpoints
+- Language: **Go (Golang)**
+- DB: **PostgreSQL**
+- HTTP: `net/http`
+- DB driver: `sqlx`, `pq`
+- Migrations: `golang-migrate`
+- Testing: Go's `testing` + coverage
+- Dev Tools: **Makefile**, **Docker**
 
 ---
 
-## 🛠 Setup Instructions
+## 🧠 How It Works
 
-### 1. Clone and setup:
-
-```bash
-git clone https://github.com/mimakk/insider-league.git
-cd insider-league
-cp .env.example .env   # if using .env files
-
-## 🐳 Docker
-
-Build and run:
-
-```bash
-docker build -t football-sim .
-docker run -p 8080:8080 football-sim
-
-
-API runs at: http://localhost:8080
-
+The app creates a virtual league of 4 teams, generates round-robin fixtures, and allows full season simulation or week-by-week updates. Teams earn points, goals are calculated based on relative strength, and predictions can be made without committing results.
 
 ---
 
-### ✅ Coverage Command
+## 🛠 Setup
 
-```md
-## 🧪 Run Tests with Coverage
-
-```bash
-go test ./simulator -coverprofile=coverage.out
-go tool cover -html=coverage.out
-
-## 📬 Postman Collection
-
-You can test all API endpoints using Postman.
-
-📁 [Download insider_football_case.postman_collection.json](./insider_football_case.postman_collection.json)
-
-- Simulate matches
-- Edit results
-- View table, fixtures, predictions
-
-
-## 📚 API Documentation (OpenAPI)
-
-This project includes an `openapi.yaml` file for Swagger support.
-
-- View and test it with [Swagger Editor](https://editor.swagger.io)
-- Import it into tools like Postman, Insomnia, Stoplight, etc.
-
-## 📘 Swagger UI
-
-To view interactive API docs:
+### 1. Clone and prepare
 
 ```bash
-docker run -p 8080:8080 -p 8081:8081 football-sim
+git clone https://github.com/mimakk/football-league-sim.git
+cd football-league-sim
+```
 
-
-
-If you don’t have it:
+### 2. Run Postgres via Docker
 
 ```bash
-go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
+docker compose up -d
+```
+
+> Make sure port `5433` is available
+
+---
+
+### 3. Run DB Migrations
+
+```bash
+make migrate-up
+```
+
+---
+
+### 4. Seed teams and start server
+
+```bash
+make run
+```
+
+Server: [http://localhost:8080](http://localhost:8080)
+
+---
+
+## 📬 API Endpoints
+
+| Method | Endpoint                   | Description                           |
+|--------|----------------------------|---------------------------------------|
+| GET    | `/`                        | Shows Table                           |
+| GET    | `/simulate/all`            | Simulate the entire season            |
+| GET    | `/simulate/week?week=2`    | Simulate a single week                |
+| GET    | `/predict?fromWeek=3`      | Predict future matches & table        |
+| GET    | `/table`                   | Get current league standings          |
+| GET    | `/fixtures`                | See upcoming fixtures                 |
+| GET    | `/results`                 | View played match results             |
+| GET    | `/meta`                    | View league state (matches, weeks)    |
+| POST   | `/match/edit`              | Edit a match result                   |
+
+---
+
+## ✏️ Example: Edit Match
+
+```http
+POST /match/edit
+Content-Type: application/json
+
+{
+  "week": 3,
+  "home_team": "Fenerbahce",
+  "away_team": "Besiktas",
+  "home_goals": 1,
+  "away_goals": 2
+}
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+make test
+```
+
+Includes unit tests for simulation, match results, editing, predictions, table sorting, etc.
+
+---
+
+## 🐳 Docker Build & Run
+
+```bash
+make docker-build
+make docker-run
+```
+
+---
+
+## 🔄 Makefile Tasks
+
+| Task            | Purpose                            |
+|-----------------|------------------------------------|
+| `make run`      | Start the app                      |
+| `make test`     | Run unit tests                     |
+| `make migrate-up` | Apply database schema             |
+| `make tidy`     | Clean go.mod and go.sum            |
+| `make docker-build` | Build Docker image             |
+
+---
+
+## 📂 Project Structure
+
+```
+.
+├── main.go
+├── models/          # Team and Match structs
+├── simulator/       # League logic, simulate, table, edit
+├── server/          # REST handlers
+├── database/        # DB init, seed, save/load matches
+├── migrations/      # SQL schema files
+├── postman/         # Postman collection (for testing)
+├── Makefile
+└── README.md
+```
+
+---
+
+## 🧪 Postman Collection
+
+Use the provided Postman collection under `postman/` folder to try all endpoints locally.
+
+---
+
+## 🧠 Design Highlights
+
+- 🧩 **SOLID**: Separation of concerns between simulator, DB, and API
+- ⚙️ Extensible LeagueAPI interface for mocking/testing
+- ♻️ In-memory simulation with rollback for predictions
+- 🧪 High test coverage and testable logic
+
+---
+
+## 📄 License
+
+MIT
