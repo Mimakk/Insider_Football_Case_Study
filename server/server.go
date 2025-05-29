@@ -7,6 +7,9 @@ import (
 
 func SetupServer() {
 	initLeague()
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/table", http.StatusSeeOther)
+	})
 	http.HandleFunc("/simulate/all", handleSimulateAll)
 	http.HandleFunc("/simulate/week", handleSimulateWeek)
 	http.HandleFunc("/match/edit", handleEditMatch)

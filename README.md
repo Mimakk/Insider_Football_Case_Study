@@ -1,4 +1,41 @@
-![Go](DONT FORGET TO PUT YOUR REPOLINK)
+# ⚽ Insider Football League Simulator
+
+A backend football league engine that simulates match results, league standings, and predictions — with full REST API, PostgreSQL persistence, and test coverage.
+
+---
+
+## 🚀 Features
+
+- Simulate all matches or one week at a time
+- Predict future results from any week onward
+- Edit match results
+- View league table, results, fixtures
+- Persist teams and matches in PostgreSQL
+- Clean code structure (SOLID principles)
+- Full unit test coverage
+- Docker-ready and CI setup
+
+---
+
+## 📦 Tech Stack
+
+- **Go** 1.20
+- **PostgreSQL** (via Docker)
+- **REST API** (net/http)
+- **SQLX** for DB access
+- **migrate** for DB migrations
+- **Postman** or `curl` for testing endpoints
+
+---
+
+## 🛠 Setup Instructions
+
+### 1. Clone and setup:
+
+```bash
+git clone https://github.com/mimakk/insider-league.git
+cd insider-league
+cp .env.example .env   # if using .env files
 
 ## 🐳 Docker
 

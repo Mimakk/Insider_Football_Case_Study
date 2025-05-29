@@ -6,6 +6,7 @@ import (
 )
 
 func TestSimulateMatchesCustomFilter(t *testing.T) {
+	SaveResultsToDB = false
 	league := League{
 		Teams: map[string]*models.Team{
 			"A": {Name: "A", Strength: 1.1},

@@ -5,6 +5,8 @@ import (
 	"insider_football_case_study/models"
 )
 
+var SaveResultsToDB = true
+
 func (l *League) simulateMatches(filter func(match *models.Match) bool) {
 	for i := range l.Fixtures {
 		match := &l.Fixtures[i]
@@ -18,7 +20,9 @@ func (l *League) simulateMatches(filter func(match *models.Match) bool) {
 			l.Results = append(l.Results, *match)
 			applyMatchResult(home, away, hg, ag)
 
-			_ = database.SaveMatchResult(*match)
+			if SaveResultsToDB {
+				_ = database.SaveMatchResult(*match)
+			}
 		}
 	}
 }
