@@ -17,6 +17,7 @@ func SetupServer() {
 	http.HandleFunc("/predict", handlePredict)
 	http.HandleFunc("/fixtures", handleFixtures)
 	http.HandleFunc("/results", handleResults)
+	http.HandleFunc("/meta", handleMeta)
 
 	fmt.Println("Server running at http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
