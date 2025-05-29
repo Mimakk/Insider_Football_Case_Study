@@ -1,6 +1,9 @@
 package simulator
 
-import "insider_football_case_study/models"
+import (
+	"insider_football_case_study/database"
+	"insider_football_case_study/models"
+)
 
 func (l *League) simulateMatches(filter func(match *models.Match) bool) {
 	for i := range l.Fixtures {
@@ -14,6 +17,8 @@ func (l *League) simulateMatches(filter func(match *models.Match) bool) {
 			match.Played = true
 			l.Results = append(l.Results, *match)
 			applyMatchResult(home, away, hg, ag)
+
+			_ = database.SaveMatchResult(*match)
 		}
 	}
 }
